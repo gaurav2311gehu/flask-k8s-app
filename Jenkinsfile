@@ -4,28 +4,19 @@ pipeline {
     stages {
         stage('Clone Repo') {
             steps {
-                git 'https://github.com/gaurav2311gehu/flask-k8s-app.git'
+                git branch: 'main', url: 'https://github.com/gaurav2311gehu/flask-k8s-app.git'
             }
         }
-
         stage('Build Docker Image') {
             steps {
-                script {
-                    docker.build("flask-k8s-app")
-                }
+                sh 'docker build -t flask-k8s-app .'
             }
         }
-
-        stage('Push Image to Docker Hub') {
+        stage('Push Docker Image') {
             steps {
-                withDockerRegistry([ credentialsId: 'dockerhub-creds', url: '' ]) {
-                    script {
-                        docker.image("flask-k8s-app").push('latest')
-                    }
-                }
+                echo 'Skipping for now or add Docker Hub login and push logic'
             }
         }
-
         stage('Deploy to Kubernetes') {
             steps {
                 sh 'kubectl apply -f k8s/'
