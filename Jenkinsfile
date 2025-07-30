@@ -7,19 +7,23 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/gaurav2311gehu/flask-k8s-app.git'
             }
         }
+
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t flask-k8s-app .'
+                bat 'docker build -t flask-k8s-app .'
             }
         }
+
         stage('Push Docker Image') {
             steps {
-                echo 'Skipping for now or add Docker Hub login and push logic'
+                echo 'Docker push step goes here'
+                // bat 'docker login' and bat 'docker push ...' if needed
             }
         }
+
         stage('Deploy to Kubernetes') {
             steps {
-                sh 'kubectl apply -f k8s/'
+                bat 'kubectl apply -f k8s/'
             }
         }
     }
